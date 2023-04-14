@@ -67,6 +67,7 @@ def draw_text(text, font, color, surface, x, y):
     surface.blit(textobj, textrect)
 
 def draw_letter():
+    screen.fill("brown")
     pygame.draw.rect(screen, color1, center_p, border_radius=1000)
     for i, (n, point) in enumerate(zip(reversed(bin_val), points)):
         if int(n):
@@ -74,9 +75,7 @@ def draw_letter():
             pygame.draw.rect(screen, color, point, border_radius=100)
     draw_text(chosen, pygame.font.SysFont('Arial', 70), "brown", screen, w(4), h(4))
 
-screen.fill("brown")
 draw_letter()
-
 while 1:
     # background
 
@@ -98,7 +97,6 @@ while 1:
             chosen = letters[nval]
             bin_val = format(ord(chosen), 'b')
             print(chosen,bin_val)
-            screen.fill("brown")
             draw_letter()
     
 
