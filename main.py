@@ -1,12 +1,11 @@
-import random
 import sys
 import pygame
 
-from string import ascii_letters
+from string import ascii_letters,  digits
 
 
 pygame.init()
-height = 150
+height = 300
 width = 150
 screen = pygame.display.set_mode((width, height))
 clock = pygame.time.Clock()
@@ -56,8 +55,8 @@ points = [
 ]
 
 nval = 0
-rand_val = random.choice(ascii_letters)
-chosen = ascii_letters[nval]
+letters = ascii_letters + digits
+chosen = letters[nval]
 bin_val = format(ord(chosen), 'b')
 print(chosen,bin_val)
 
@@ -67,9 +66,19 @@ def draw_text(text, font, color, surface, x, y):
     textrect.center = (x, y)
     surface.blit(textobj, textrect)
 
+def draw_letter():
+    pygame.draw.rect(screen, color1, center_p, border_radius=1000)
+    for i, (n, point) in enumerate(zip(reversed(bin_val), points)):
+        if int(n):
+            color = color1 if i<=3 else color2
+            pygame.draw.rect(screen, color, point, border_radius=100)
+    draw_text(chosen, pygame.font.SysFont('Arial', 70), "brown", screen, w(4), h(4))
+
+screen.fill("brown")
+draw_letter()
+
 while 1:
     # background
-    screen.fill("brown")
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -79,23 +88,19 @@ while 1:
             if event.key == pygame.K_ESCAPE:
                 pygame.quit()
                 exit()
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            chosen = ascii_letters[nval]
-            bin_val = format(ord(chosen), 'b')
-            nval += 1
-            if nval >= len(ascii_letters):
+        if event.type == pygame.MOUSEWHEEL:
+            nval += event.y
+            if nval >= len(letters):
                 nval = 0
+            elif nval < 0:
+                nval = len(letters) - 1
 
+            chosen = letters[nval]
+            bin_val = format(ord(chosen), 'b')
             print(chosen,bin_val)
+            screen.fill("brown")
+            draw_letter()
     
 
-    pygame.draw.rect(screen, color1, center_p, border_radius=1000)
-
-    for i, (n, point) in enumerate(zip(reversed(bin_val), points)):
-        if int(n):
-            color = color1 if i<=3 else color2
-            pygame.draw.rect(screen, color, point, border_radius=100)
-    
-    draw_text(chosen, pygame.font.SysFont('Arial', 70), "brown", screen, w(4), h(4))
     pygame.display.flip()
     clock.tick(60)
