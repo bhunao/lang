@@ -16,29 +16,31 @@ def w(pos):
 def h(pos):
     return height/8*pos
 
+def pos(x, y):
+    return w(x), h(y)
 
 size = pygame.math.Vector2(width/2, height/2)
 size2 = size / 2.5
 
 center_p = pygame.Rect(0,0, *size)
-center_p.center = w(4), h(4)
+center_p.center = pos(4, 4)
 top_p = pygame.Rect(0,0, *size2)
-top_p.center = w(4), h(2)
+top_p.center = pos(4,2)
 right_p = pygame.Rect(0, 0, *size2)
-right_p.center = w(6), h(4)
+right_p.center = pos(6, 4)
 down_p = pygame.Rect(0, 0, *size2)
-down_p.center = w(4), h(6)
+down_p.center = pos(4, 6)
 left_p = pygame.Rect(0, 0, *size2)
-left_p.center = w(2), h(4)
+left_p.center = pos(2, 4)
 
 topleft_p = pygame.Rect(0, 0, *size2)
-topleft_p.center = w(2.5), h(2.5)
+topleft_p.center = pos(2.5, 2.5)
 topright_p = pygame.Rect(0, 0, *size2)
-topright_p.center = w(5.5), h(2.5)
+topright_p.center = pos(5.5, 2.5)
 bottomright_p = pygame.Rect(0, 0, *size2)
-bottomright_p.center = w(5.5), h(5.5)
+bottomright_p.center = pos(5.5, 5.5)
 bottomleft_p = pygame.Rect(0, 0, *size2)
-bottomleft_p.center = w(2.5), h(5.5)
+bottomleft_p.center = pos(2.5, 5.5)
 
 color1 = "yellow"
 color2 = "brown"
@@ -89,6 +91,7 @@ while 1:
                 exit()
         if event.type == pygame.MOUSEWHEEL:
             nval += event.y
+
             if nval >= len(letters):
                 nval = 0
             elif nval < 0:
@@ -98,7 +101,6 @@ while 1:
             bin_val = format(ord(chosen), 'b')
             print(chosen,bin_val)
             draw_letter()
-    
 
     pygame.display.flip()
     clock.tick(60)
